@@ -54,6 +54,8 @@ modules/NN-nom/
 └── ...         # fichiers de code utilisés (Dockerfile, compose, apps)
 ```
 
+> Le module 00 ne contient que le cours et son mini-test. Le module 15 (projet final) remplace `quiz.md` par un quiz de bilan et fournit une grille d'évaluation.
+
 ## 🧭 Comment suivre cette formation
 
 **En autoformation** : lisez le `README.md` du module, rejouez le `demo.md`, faites le `lab.md` sans regarder `solutions.md`, puis passez le `quiz.md`. Ne passez au module suivant que si vous avez ≥ 80 % au quiz.

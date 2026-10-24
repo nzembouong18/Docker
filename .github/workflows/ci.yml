@@ -1,0 +1,52 @@
+# CI du dépôt de formation: vérifie que les exemples restent valides
+name: ci
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  compose-and-dockerfiles:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Valider les fichiers Compose
+        env:
+          POSTGRES_PASSWORD: ci-only
+          REGISTRY: ghcr.io/example
+          TAG: ci
+        run: |
+          set -e
+          cp modules/09-compose/stack/secrets/db_password.txt.example modules/09-compose/stack/secrets/db_password.txt
+          docker compose -f modules/08-reseau/proxy-demo/compose.yaml config -q
+          docker compose -f modules/09-compose/stack/compose.yaml config -q
+          docker compose -f modules/11-securite/hardened/compose.yaml config -q
+          docker compose -f modules/12-observabilite/monitoring/compose.yaml config -q
+          docker compose -f modules/15-projet-final/projet/compose.yaml config -q
+          docker compose -f modules/15-projet-final/projet/compose.yaml -f modules/15-projet-final/projet/compose.prod.yaml config -q
+
+      - name: Lint des Dockerfile (hadolint)
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          recursive: true
+          ignore: DL3008,DL3018
+          failure-threshold: error
+
+      - name: Build des exemples
+        run: |
+          docker build -t ex/py modules/05-dockerfile/app-python
+          docker build -t ex/node modules/05-dockerfile/app-node
+          docker build -t ex/go modules/06-dockerfile-avance/go-app
+          docker build --target test modules/15-projet-final/projet/api
+          docker images ex/*
+
+  markdown-links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: lycheeverse/lychee-action@v2
+        with:
+          args: --offline --no-progress '**/*.md'

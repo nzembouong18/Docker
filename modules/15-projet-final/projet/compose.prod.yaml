@@ -1,0 +1,17 @@
+# Production: docker compose -f compose.yaml -f compose.prod.yaml up -d
+# (ne pas inclure compose.override.yaml)
+services:
+  api:
+    build: !reset null
+    image: ${REGISTRY}/todo-api:${TAG}
+    deploy:
+      resources:
+        limits: { cpus: "1.0", memory: 256M }
+  proxy:
+    deploy:
+      resources:
+        limits: { cpus: "0.5", memory: 64M }
+  db:
+    deploy:
+      resources:
+        limits: { cpus: "1.0", memory: 512M }

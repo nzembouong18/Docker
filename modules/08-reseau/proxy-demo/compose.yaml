@@ -1,0 +1,23 @@
+# Reverse proxy nginx devant deux services (réseaux frontend/backend)
+services:
+  proxy:
+    image: nginx:1.27-alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks: [frontend]
+    depends_on: [app1, app2]
+
+  app1:
+    image: hashicorp/http-echo:1.0
+    command: ["-text=Bonjour depuis app1", "-listen=:5678"]
+    networks: [frontend]
+
+  app2:
+    image: hashicorp/http-echo:1.0
+    command: ["-text=Bonjour depuis app2", "-listen=:5678"]
+    networks: [frontend]
+
+networks:
+  frontend:

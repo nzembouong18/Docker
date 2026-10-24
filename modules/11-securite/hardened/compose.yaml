@@ -1,0 +1,21 @@
+# Conteneur web durci : tous les mécanismes du module 11 réunis
+services:
+  web:
+    image: nginxinc/nginx-unprivileged:1.27-alpine   # écoute sur 8080, utilisateur non-root
+    ports:
+      - "127.0.0.1:8080:8080"
+    read_only: true
+    tmpfs:
+      - /tmp
+    user: "101:101"
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 100
+    mem_limit: 128m
+    cpus: 0.5
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/"]
+      interval: 10s
+      timeout: 3s
+      retries: 3

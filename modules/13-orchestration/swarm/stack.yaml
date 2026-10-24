@@ -1,0 +1,56 @@
+# docker stack deploy -c stack.yaml demo
+services:
+  web:
+    image: nginx:1.27-alpine
+    ports:
+      - target: 80
+        published: 8080
+        mode: ingress
+    networks: [frontend]
+    deploy:
+      replicas: 3
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: start-first
+        failure_action: rollback
+      rollback_config:
+        parallelism: 1
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+      resources:
+        limits: { cpus: "0.25", memory: 128M }
+        reservations: { cpus: "0.10", memory: 64M }
+      placement:
+        max_replicas_per_node: 2
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    configs:
+      - source: site
+        target: /usr/share/nginx/html/index.html
+
+  api:
+    image: hashicorp/http-echo:1.0
+    command: ["-text=api ok", "-listen=:5678"]
+    networks: [frontend, backend]
+    secrets: [api_key]
+    deploy:
+      replicas: 2
+
+networks:
+  frontend:
+  backend:
+    driver: overlay
+    internal: true
+
+configs:
+  site:
+    file: ./index.html
+
+secrets:
+  api_key:
+    external: true      # docker secret create api_key -

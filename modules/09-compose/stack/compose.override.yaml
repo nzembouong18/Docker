@@ -1,0 +1,10 @@
+# Appliqué automatiquement en local avec `docker compose up`
+services:
+  web:
+    build:
+      context: ./web
+    volumes:
+      - ./web/app.py:/app/app.py:ro
+    command: ["gunicorn", "--bind", "0.0.0.0:5000", "--reload", "app:app"]
+    ports:
+      - "127.0.0.1:5000:5000"
