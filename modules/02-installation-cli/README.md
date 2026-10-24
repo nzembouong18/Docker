@@ -97,7 +97,7 @@ docker stop web && docker rm web
 |--------|----------|
 | Conteneurs en cours | `docker ps` |
 | Tous les conteneurs | `docker ps -a` |
-| Arrêter / démarrer / redémarrer | `docker stop|start|restart NOM` |
+| Arrêter / démarrer / redémarrer | `docker stop NOM`, `docker start NOM`, `docker restart NOM` |
 | Supprimer | `docker rm [-f] NOM` |
 | Logs (suivre) | `docker logs -f --tail 100 NOM` |
 | Exécuter une commande | `docker exec [-it] NOM CMD` |

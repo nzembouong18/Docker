@@ -26,6 +26,7 @@ echo "# x" >> requirements.txt
 docker build -t py:ms .             # réutilise ~/.cache/pip via le cache mount
 docker run --rm py:ms
 docker build --target test -t py:test .      # étape de tests
+sed -i '$ d' requirements.txt     # retire la ligne ajoutée
 cd ..
 ```
 
@@ -56,7 +57,7 @@ docker inspect -f '{{.Config.Env}}' t:leak
 
 ## Démo 6 — Multi-arch (10 min)
 ```bash
-docker buildx create --name multi --use --bootstrap
+docker buildx create --name multi --driver-opt network=host --use --bootstrap   # network=host: joindre localhost:5000
 docker buildx build --platform linux/amd64,linux/arm64 -t localhost:5000/go:multi go-app --push   # registre local requis
 docker buildx imagetools inspect localhost:5000/go:multi
 ```

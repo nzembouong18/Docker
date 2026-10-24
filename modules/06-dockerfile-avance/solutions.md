@@ -59,6 +59,7 @@ docker build --secret id=api_token,env=API_TOKEN -t t:s .
 ## Lab 6.5
 ```bash
 docker run -d -p 5000:5000 --name registry registry:2
+docker buildx create --name multi --driver-opt network=host --use
 docker buildx build --platform linux/amd64,linux/arm64 --sbom=true --provenance=mode=max -t localhost:5000/go:1 --push go-app
 docker buildx imagetools inspect localhost:5000/go:1
 docker run --rm --platform linux/arm64 alpine uname -m      # aarch64

@@ -20,7 +20,7 @@ Reprendre [`workflows/build-push-ghcr.yml`](workflows/build-push-ghcr.yml) en re
 ## Lab 10.3
 ```yaml
 - uses: aquasecurity/trivy-action@0.28.0
-  with: { image-ref: "ghcr.io/${{ github.repository }}:sha-${{ github.sha }}", severity: CRITICAL, exit-code: "1", ignore-unfixed: true }
+  with: { image-ref: "ghcr.io/${{ github.repository }}@${{ steps.build.outputs.digest }}", severity: CRITICAL, exit-code: "1", ignore-unfixed: true }
 ```
 Vérification : `cosign verify --certificate-identity-regexp '…' --certificate-oidc-issuer https://token.actions.githubusercontent.com IMAGE`.
 

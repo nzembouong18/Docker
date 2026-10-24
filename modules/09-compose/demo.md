@@ -60,6 +60,6 @@ git checkout web/app.py 2>/dev/null || sed -i 's/"hits"/"hits_redis"/' web/app.p
 
 ## Démo 8 — Tâche ponctuelle et nettoyage (3 min)
 ```bash
-docker compose run --rm db psql -h db -U app -d app -c "select count(*) from visits;"   # demandera le mot de passe
+docker compose exec db psql -U app -d app -c "select count(*) from visits;"
 docker compose down -v --remove-orphans
 ```

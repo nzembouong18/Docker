@@ -20,8 +20,9 @@ docker run --rm --privileged alpine sh -c 'ls /dev | wc -l'; docker run --rm alp
 ```bash
 docker run --rm alpine sh -c 'apk add -q libcap && capsh --print | head -3'
 docker run --rm --cap-drop ALL alpine chown 1000 /etc/hostname || echo "chown refusé (CAP_CHOWN retirée)"
-docker run --rm --cap-drop ALL --cap-add NET_BIND_SERVICE python:3.12-alpine \
-  python -c "import socket;s=socket.socket();s.bind(('0.0.0.0',80));print('bind 80 ok')" 
+docker run --rm --cap-drop ALL --cap-add NET_RAW alpine ping -c1 127.0.0.1   # NET_RAW ajoutée: ping fonctionne
+docker run --rm --cap-drop ALL alpine ping -c1 127.0.0.1 || echo "ping refusé sans NET_RAW"
+# Note: Docker abaisse net.ipv4.ip_unprivileged_port_start à 0 dans les conteneurs : bind(80) fonctionne même sans NET_BIND_SERVICE
 ```
 
 ## Démo 4 — Root dans le conteneur vs utilisateur (5 min)
@@ -38,7 +39,7 @@ docker run --rm --security-opt no-new-privileges alpine sh -c 'grep NoNewPrivs /
 
 ## Démo 6 — seccomp personnalisé (5 min)
 ```bash
-docker run --rm --security-opt seccomp=../seccomp-no-mkdir.json alpine mkdir /x
+docker run --rm --security-opt seccomp=$PWD/seccomp-no-mkdir.json alpine mkdir /x
 docker run --rm alpine mkdir /x && echo "profil par défaut: ok"
 ```
 

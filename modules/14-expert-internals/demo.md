@@ -12,7 +12,7 @@ sudo jq '.process.args, .linux.namespaces[].type, .process.capabilities.bounding
 
 ## Démo 2 — nsenter : déboguer sans shell (10 min)
 ```bash
-docker run -d --name distro --read-only gcr.io/distroless/static-debian12 sleep 600 2>/dev/null || docker run -d --name distro nginx:alpine
+docker run -d --name distro nginx:alpine      # remplacez par une image distroless pour l'exercice 14.5
 PID=$(docker inspect -f '{{.State.Pid}}' distro)
 sudo nsenter -t $PID -n ip a
 sudo nsenter -t $PID -n ss -tlnp
@@ -40,7 +40,7 @@ docker rm -f thr
 
 ## Démo 5 — OverlayFS (10 min)
 ```bash
-docker run -d --name ov alpine sh -c 'echo données > /nouveau; rm /etc/hostname-fake 2>/dev/null; sleep 600'
+docker run -d --name ov alpine sh -c 'echo données > /nouveau; sleep 600'
 docker exec ov rm /etc/motd
 docker diff ov
 D=$(docker inspect -f '{{.GraphDriver.Data.UpperDir}}' ov); sudo ls -la $D $D/etc

@@ -46,7 +46,7 @@ Requêtes : CPU `sum by (name) (rate(container_cpu_usage_seconds_total{name!=""}
 ## Lab 12.4
 ```yaml
 - alert: ContainerRestarting
-  expr: increase(container_start_time_seconds[10m]) > 0 and changes(container_start_time_seconds[10m]) > 2
+  expr: changes(container_start_time_seconds{name!=""}[10m]) > 2
 - alert: CadvisorDown
   expr: up{job="cadvisor"} == 0
   for: 1m

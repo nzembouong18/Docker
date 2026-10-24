@@ -19,7 +19,7 @@ echo "# modif" >> app.py
 docker build -t flask:propre .         # seules les dernières couches sont rejouées
 echo "requests==2.32.3" >> requirements.txt
 docker build -t flask:propre .         # pip install rejoué
-git checkout -- . 2>/dev/null || true
+sed -i '$ d' requirements.txt app.py      # annule les deux ajouts
 ```
 
 ## Démo 3 — Shell form vs exec form (5 min)
