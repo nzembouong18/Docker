@@ -1,0 +1,6 @@
+# ❌ Mono-étape : toute la toolchain Go reste dans l'image finale (~850 Mo)
+FROM golang:1.22
+WORKDIR /src
+COPY . .
+RUN go build -o /app .
+CMD ["/app"]
