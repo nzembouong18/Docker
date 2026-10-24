@@ -15,7 +15,7 @@ RUN --mount=type=cache,target=/root/.cache/pip pip install -r requirements-dev.t
 WORKDIR /src
 COPY app ./app
 COPY tests ./tests
-RUN pytest -q
+RUN python -m pytest -q
 
 # ---- image finale ----
 FROM python:3.12-slim AS runtime
