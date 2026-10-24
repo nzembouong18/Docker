@@ -38,6 +38,8 @@ Elle peut être suivie seul(e) ou utilisée par un formateur pour une session de
 | 14 | [Expert : internals & troubleshooting](modules/14-expert-internals/) | 🔴 | 4 h | runc, namespaces, cgroups, debug |
 | 15 | [Projet final](modules/15-projet-final/) | 🔴 | 6 h | Application complète, CI, déploiement |
 
+Support de cours PowerPoint (99 diapositives, notes de l'orateur) : [`support-de-cours/`](support-de-cours/).
+
 Total ≈ 45 h. Annexes : [aide-mémoire](annexes/cheatsheet.md) · [glossaire](annexes/glossaire.md) · [préparation DCA](annexes/preparation-dca.md) · [ressources](annexes/ressources.md).
 
 Légende : 🟢 débutant · 🟡 intermédiaire · 🟠 avancé · 🔴 expert.

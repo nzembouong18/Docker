@@ -23,7 +23,7 @@ EXPOSE 5000
 HEALTHCHECK CMD python -c "import urllib.request as u; \\
   u.urlopen('http://localhost:5000/health')"
 CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]`, { x: 0.5, y: 1.3, w: 9, h: 3.1, fs: 11, label: "Dockerfile Flask" });
-  callout(s, "key", "build : docker build -t flask:propre .  puis  docker run -d -p 5000:5000 flask:propre", { y: 4.5, h: 0.6, fs: 13 });
+  callout(s, "key", "pour construire puis lancer : docker build -t flask:propre . et docker run -d -p 5000:5000 flask:propre", { y: 4.5, h: 0.6, fs: 13 });
 
   s = slide("Les instructions essentielles", "ARG existe au build seulement, ENV persiste. COPY plutôt que ADD. Pas de secret dans ARG ni ENV.");
   table(s, [
@@ -51,7 +51,7 @@ $ docker run --entrypoint sh t:ep -c 'echo override'`, { x: 0.5, y: 1.3, w: 5.2,
     ["[\"e\"]", "—", "e x y"],
     ["[\"e\"]", "[\"a\"]", "e x y"],
   ], { x: 5.9, y: 1.3, w: 3.6, colW: [1.1, 0.9, 1.6], fs: 12 });
-  callout(s, "tip", "patron courant : ENTRYPOINT = script d'initialisation qui termine par exec \"$@\" ; CMD = le serveur.", { y: 4.2, h: 0.8 });
+  callout(s, "tip", "un ENTRYPOINT prépare l'environnement et termine par exec \"$@\" ; le CMD lance le serveur.", { y: 4.2, h: 0.8 });
 
   s = slide("Le cache : l'ordre fait tout", "Montrer en direct : modifier app.py et reconstruire. Seules les dernières couches sont rejouées (CACHED pour le reste).");
   code(s, `# ❌ chaque modification de code
@@ -81,7 +81,7 @@ COPY . .`, { x: 5.1, y: 1.3, w: 4.4, h: 1.5, fs: 11, label: "bon ordre" });
     { icon: "FaHeartbeat", color: C.accent4, title: "Healthcheck", text: "Sonde rapide, sans dépendance." },
     { icon: "FaCheckCircle", color: C.accent3, title: "hadolint", text: "Linter en CI." },
   ], { cols: 4, h: 1.55, y: 1.3, gap: 0.15, fs: 13, tfs: 14 });
-  callout(s, "lab", "lab 5.2 : trouver les 8 défauts d'un Dockerfile volontairement mauvais.", { y: 4.68, h: 0.45, fs: 12 });
+  callout(s, "lab", "5.2 : trouver les 8 défauts d'un Dockerfile volontairement mauvais.", { y: 4.68, h: 0.45, fs: 12 });
 
   // ===== 06 DOCKERFILE AVANCE =====
   newSection("06 · Dockerfile avancé");
@@ -148,7 +148,7 @@ $ docker buildx imagetools inspect ghcr.io/org/app:1.0`, { x: 0.5, y: 1.3, w: 9,
     ["scratch", "Binaire statique", "Rien de plus : tout à copier"],
     ["Chainguard / DHI", "Images durcies, peu de CVE", "Souvent payantes"],
   ], { colW: [2.2, 3.6, 3.2], fs: 14 });
-  callout(s, "lab", "labos 6.1 à 6.6 : Go multi-stage, front nginx, build lent à optimiser, secret, multi-arch, Bake.", { y: 4.35, h: 0.7, fs: 13 });
+  callout(s, "lab", "6.1 à 6.6 : Go multi-stage, front nginx, build lent à optimiser, secret, multi-arch, Bake.", { y: 4.35, h: 0.7, fs: 13 });
 
   // ===== 07 VOLUMES =====
   newSection("07 · Volumes et stockage");
@@ -201,7 +201,7 @@ $ docker exec pg pg_dump -U postgres formation > formation.sql`, { x: 0.5, y: 1.
     ["Accès refusé (Fedora, RHEL)", "SELinux", "Suffixe :z ou :Z"],
     ["Volumes orphelins", "VOLUME anonyme", "docker volume ls -f dangling=true"],
   ], { colW: [2.4, 3.2, 3.4], fs: 13 });
-  callout(s, "lab", "labos 7.1 à 7.5 : base persistante, scripts backup/restore, dev à chaud, partage, conteneur durci.", { y: 4.0, h: 0.8 });
+  callout(s, "lab", "7.1 à 7.5 : base persistante, scripts backup/restore, dev à chaud, partage, conteneur durci.", { y: 4.0, h: 0.8 });
 
   // ===== 08 RESEAU =====
   newSection("08 · Réseau");
@@ -264,7 +264,7 @@ $ docker run --rm -it --network container:web nicolaka/netshoot
 $ docker exec web cat /etc/resolv.conf /etc/hosts
 $ docker network inspect app-net \\
     --format '{{range .Containers}}{{.Name}} {{.IPv4Address}}{{"\\n"}}{{end}}'`, { x: 0.5, y: 1.3, w: 9, h: 2.4, fs: 11, label: "netshoot" });
-  callout(s, "lab", "labos 8.1 à 8.5 : trois niveaux cloisonnés, DNS et alias, reverse proxy, pannes, macvlan.", { y: 4.0, h: 0.8 });
+  callout(s, "lab", "8.1 à 8.5 : trois niveaux cloisonnés, DNS et alias, reverse proxy, pannes, macvlan.", { y: 4.0, h: 0.8 });
 
   // ===== 09 COMPOSE =====
   newSection("09 · Docker Compose");
@@ -338,5 +338,5 @@ $ curl localhost:8080       # {"hits_redis":1,"visits_postgres":1,...}`, { x: 0.
     ["up -d --scale web=3", "réplicas (sans container_name)"],
     ["config  ·  watch", "config finale validée ; hot reload"],
   ], { colW: [3.8, 5.2], fs: 13 });
-  callout(s, "lab", "labos 9.1 à 9.6 : stack, votre application, migrations, profils, watch, validation en CI.", { y: 4.2, h: 0.8 });
+  callout(s, "lab", "9.1 à 9.6 : stack, votre application, migrations, profils, watch, validation en CI.", { y: 4.2, h: 0.8 });
 };

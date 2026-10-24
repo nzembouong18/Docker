@@ -118,7 +118,7 @@ $ cosign verify --certificate-identity-regexp '...' IMAGE`, { x: 0.5, y: 3.7, w:
     ["Fichier monté (secrets: → /run/secrets)", "✅ correct"],
     ["Gestionnaire externe (Vault, SOPS, cloud)", "✅✅ rotation et audit"],
   ], { colW: [4.4, 4.6], fs: 14 });
-  callout(s, "lab", "labo 11.4 : retrouver un secret dans une image avec history, save et Trivy, puis corriger avec --mount=type=secret.", { y: 3.9, h: 0.9, fs: 13 });
+  callout(s, "lab", "11.4 : retrouver un secret dans une image avec history, save et Trivy, puis corriger avec --mount=type=secret.", { y: 3.9, h: 0.9, fs: 13 });
 
   // ===== 12 OBSERVABILITE =====
   newSection("12 · Observabilité");
@@ -217,8 +217,7 @@ kind: Deployment
 metadata: { name: web }
 spec:
   replicas: 3
-  strategy: { type: RollingUpdate,
-              rollingUpdate: { maxSurge: 1, maxUnavailable: 0 } }
+  strategy: { type: RollingUpdate }
   selector: { matchLabels: { app: web } }
   template:
     metadata: { labels: { app: web } }
@@ -231,7 +230,8 @@ spec:
                      limits:   { cpu: 250m, memory: 128Mi } }
         readinessProbe: { httpGet: { path: /, port: 8080 } }
         securityContext: { readOnlyRootFilesystem: true,
-                           capabilities: { drop: [ALL] } }`, { x: 0.5, y: 1.25, w: 9, h: 3.7, fs: 10, label: "Deployment" });
+                           capabilities: { drop: [ALL] } }
+# + un volume emptyDir monté sur /tmp (nginx y écrit)`, { x: 0.5, y: 1.25, w: 9, h: 3.7, fs: 10, label: "Deployment" });
 
   s = slide("Quelle plateforme choisir", "Aucune solution universelle : adapter à la taille de l'équipe et au besoin.");
   table(s, [

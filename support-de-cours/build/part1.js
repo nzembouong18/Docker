@@ -68,7 +68,7 @@ module.exports = function (L) {
     ["4.", "Vérifier avec le corrigé"],
     ["5.", "Passer le quiz (≥ 80 %)"],
   ], { x: 5.9, y: 1.4, w: 3.6, h: 2.6, fontSize: 16, gap: 10 });
-  callout(s, "tip", "prérequis : Docker ≥ 24, Compose v2, Git. Vérifiez avec ./scripts/check-env.sh.", { x: 5.9, y: 4.0, w: 3.6, h: 0.9, fs: 12 });
+  callout(s, "tip", "installez Docker ≥ 24, Compose v2 et Git, puis vérifiez avec ./scripts/check-env.sh.", { x: 5.9, y: 4.0, w: 3.6, h: 0.9, fs: 12 });
 
   // ===== 01 INTRODUCTION =====
   newSection("01 · Introduction aux conteneurs");
@@ -134,7 +134,7 @@ module.exports = function (L) {
     y: 1.7, h: 0.9, fs: 14,
     sub: ["docker build", "couches immuables", "docker push", "docker pull", "docker run"],
   });
-  callout(s, "key", "standard OCI : la même image fonctionne avec Docker, Podman, containerd et Kubernetes.", { y: 4.0, h: 0.8 });
+  callout(s, "key", "grâce au standard OCI, la même image fonctionne avec Docker, Podman, containerd et Kubernetes.", { y: 4.0, h: 0.8 });
 
   s = slide("À vous de jouer : labos du module 01", "Laisser 20 minutes. Les corrigés sont dans modules/01-introduction/solutions.md.");
   cards(s, [
@@ -207,7 +207,7 @@ $ docker stop web && docker rm web    # arrêt puis suppression`, { x: 0.5, y: 1
   table(s, [
     ["Action", "Commande"],
     ["Conteneurs actifs / tous", "docker ps  ·  docker ps -a"],
-    ["Arrêter, démarrer, redémarrer", "docker stop|start|restart NOM"],
+    ["Arrêter, démarrer, redémarrer", "docker stop · start · restart NOM"],
     ["Logs en direct", "docker logs -f --tail 100 NOM"],
     ["Détails d'un champ", "docker inspect -f '{{.State.Status}}' NOM"],
     ["Ressources en direct", "docker stats"],
@@ -308,7 +308,7 @@ $ curl http://localhost:5000/v2/_catalog`, { x: 0.5, y: 1.3, w: 5.6, h: 3.0, fs:
     ["ECR / GAR / ACR", "Clouds privés"],
     ["Harbor, GitLab", "Auto-hébergés"],
   ], { x: 6.3, y: 1.3, w: 3.2, colW: [1.4, 1.8], fs: 12 });
-  callout(s, "warn", "les identifiants vont dans ~/.docker/config.json : utilisez un credential helper et des tokens limités.", { y: 4.45, h: 0.65, fs: 13 });
+  callout(s, "warn", "les identifiants sont stockés dans ~/.docker/config.json ; utilisez un credential helper et des tokens limités.", { y: 4.45, h: 0.65, fs: 13 });
 
   s = slide("À vous de jouer : labos du module 03", "Le lab du registre privé avec volume prépare la notion de persistance.");
   cards(s, [
@@ -363,7 +363,7 @@ $ docker port web     # correspondances
   cards(s, [
     { icon: "FaExclamationTriangle", color: C.accent5, title: "Pare-feu", text: "Docker contourne souvent ufw : -p ouvre au monde." },
   ], { cols: 1, x0: 6.3, w: 3.2, h: 2.6, y: 1.3, fs: 13 });
-  callout(s, "warn", "jamais de secret dans l'image ni dans ENV : visible avec docker inspect et docker history.", { y: 4.1, h: 0.7 });
+  callout(s, "warn", "ne mettez jamais de secret dans l'image ni dans ENV ; il reste visible avec docker inspect et docker history.", { y: 4.1, h: 0.7 });
 
   s = slide("Limiter les ressources (cgroups)", "Sans limite, un conteneur peut affamer l'hôte. L'OOM kill donne le code 137 et OOMKilled=true.");
   code(s, `$ docker run -d --name api \\
@@ -375,7 +375,7 @@ $ docker port web     # correspondances
 $ docker stats --no-stream
 $ docker update --memory 1g --cpus 2 api   # à chaud`, { x: 0.5, y: 1.3, w: 5.4, h: 2.7, fs: 11, label: "limites" });
   stat(s, 6.2, 1.3, 3.3, "137", "code de sortie d'un conteneur tué par l'OOM killer (mesuré)", C.accent5);
-  callout(s, "key", "toujours définir des limites en production. Vérifier : docker inspect -f '{{.State.OOMKilled}}'.", { y: 4.2, h: 0.8 });
+  callout(s, "key", "définissez toujours des limites en production et vérifiez avec docker inspect -f '{{.State.OOMKilled}}'.", { y: 4.2, h: 0.8 });
 
   s = slide("Redémarrage et logs", "no n'est pas une stratégie de prod. json-file n'a pas de rotation par défaut : disque plein garanti.");
   table(s, [
@@ -393,7 +393,7 @@ $ docker run --log-opt max-size=10m \\
 { "log-driver": "local",
   "log-opts": { "max-size": "10m",
                 "max-file": "3" } }`, { x: 5.1, y: 1.3, w: 4.4, h: 2.6, fs: 11, label: "logs" });
-  callout(s, "tip", "logguez sur stdout/stderr : Docker les collecte, jamais dans des fichiers à l'intérieur du conteneur.", { y: 4.2, h: 0.75 });
+  callout(s, "tip", "écrivez les logs sur stdout/stderr, que Docker collecte, et jamais dans des fichiers du conteneur.", { y: 4.2, h: 0.75 });
 
   s = slide("Dépanner un conteneur qui s'arrête", "Méthode en 5 étapes, répétée dans le lab 4.5 avec cinq conteneurs volontairement cassés.");
   flow(s, ["docker ps -a", "docker logs", "docker inspect", "run --entrypoint sh", "Corriger"], {

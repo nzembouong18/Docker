@@ -41,6 +41,7 @@ async function loadIcons(names) {
     iconCache[n] = "image/png;base64," + buf.toString("base64");
   }
 }
+const ICON_ALT = {"FaBalanceScale": "balance", "FaBolt": "éclair", "FaBook": "livre", "FaBoxOpen": "boîte ouverte", "FaBoxes": "boîtes empilées", "FaBug": "bogue", "FaCertificate": "certificat", "FaChartLine": "courbe de métriques", "FaCheckCircle": "coche de validation", "FaCloud": "nuage", "FaCodeBranch": "branches de code", "FaCopy": "copie", "FaCube": "cube", "FaDatabase": "base de données", "FaDesktop": "ordinateur", "FaExclamationTriangle": "avertissement", "FaExpandArrowsAlt": "flèches d'agrandissement", "FaEye": "œil", "FaFileAlt": "document", "FaFileCode": "fichier de code", "FaFilter": "filtre", "FaFlask": "fiole de labo", "FaFolderOpen": "dossier ouvert", "FaGlobe": "globe", "FaGraduationCap": "toque de diplômé", "FaHeartbeat": "battement de santé", "FaKey": "clé", "FaLayerGroup": "couches", "FaLightbulb": "ampoule", "FaLock": "cadenas", "FaMemory": "mémoire", "FaMicrochip": "puce", "FaNetworkWired": "réseau", "FaPlay": "lecture", "FaProjectDiagram": "diagramme", "FaRocket": "fusée", "FaRoute": "itinéraire", "FaSearch": "loupe", "FaServer": "serveur", "FaShieldAlt": "bouclier", "FaSitemap": "arborescence", "FaSkullCrossbones": "tête de mort", "FaSlidersH": "curseurs", "FaSyncAlt": "flèches de synchronisation", "FaTachometerAlt": "compteur", "FaTag": "étiquette", "FaTerminal": "terminal", "FaTimesCircle": "croix", "FaToggleOn": "interrupteur", "FaTrash": "corbeille", "FaUnlock": "cadenas ouvert", "FaUpload": "envoi", "FaUserShield": "utilisateur protégé", "FaUsers": "personnes", "FaVial": "éprouvette"};
 const ico = (n) => {
   if (!iconCache[n]) throw new Error("Icône non préchargée: " + n);
   return iconCache[n];
@@ -175,7 +176,7 @@ function slide(title, notes) {
 function circleIcon(s, name, x, y, d, color, nameObj) {
   s.addShape(SHAPE.ellipse, { x, y, w: d, h: d, fill: { color }, line: { color, width: 0 }, objectName: (nameObj || "Pastille") + " " + name });
   const p = d * 0.22;
-  s.addImage({ data: ico(name), x: x + p, y: y + p, w: d - 2 * p, h: d - 2 * p, objectName: "Icône " + name, altText: "Icône " + name });
+  s.addImage({ data: ico(name), x: x + p, y: y + p, w: d - 2 * p, h: d - 2 * p, objectName: "Icône " + name, altText: "Icône : " + (ICON_ALT[name] || name) });
 }
 
 // puces : string | [gras, reste]
