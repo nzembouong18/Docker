@@ -33,6 +33,8 @@ API :
 | DELETE | `/api/todos/<id>` | supprime |
 | GET | `/live`, `/ready` | liveness / readiness (DB) |
 
+> Prérequis : Docker Compose ≥ 2.24 (le fichier `compose.prod.yaml` utilise `!reset`).
+
 ## 2. Prise en main (le point de départ fourni)
 
 ```bash
